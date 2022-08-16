@@ -1,5 +1,5 @@
 import prep
-import FeatureSelection
+import features
 import numpy as np
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -19,7 +19,7 @@ from sklearn.metrics import average_precision_score
 
 # naive bayes classifier
 nb_pipeline = Pipeline([
-    ('NBCV', FeatureSelection.countV),
+    ('NBCV', features.countV),
     ('nb_clf', MultinomialNB())])
 
 nb_pipeline.fit(prep.train_news['Statement'], prep.train_news['Label'])
@@ -28,7 +28,7 @@ np.mean(predicted_nb == prep.test_news['Label'])
 
 # logistic regression classifier
 logR_pipeline = Pipeline([
-    ('LogRCV', FeatureSelection.countV),
+    ('LogRCV', features.countV),
     ('LogR_clf', LogisticRegression())
 ])
 
@@ -38,7 +38,7 @@ np.mean(predicted_LogR == prep.test_news['Label'])
 
 # Linear SVM classifier
 svm_pipeline = Pipeline([
-    ('svmCV', FeatureSelection.countV),
+    ('svmCV', features.countV),
     ('svm_clf', svm.LinearSVC())
 ])
 
@@ -48,7 +48,7 @@ np.mean(predicted_svm == prep.test_news['Label'])
 
 # SVM Stochastic Gradient Descent
 sgd_pipeline = Pipeline([
-    ('svm2CV', FeatureSelection.countV),
+    ('svm2CV', features.countV),
     ('svm2_clf', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
 ])
 
@@ -58,7 +58,7 @@ np.mean(predicted_sgd == prep.test_news['Label'])
 
 # random forest classifier
 random_forest = Pipeline([
-    ('rfCV', FeatureSelection.countV),
+    ('rfCV', features.countV),
     ('rf_clf', RandomForestClassifier(n_estimators=200, n_jobs=3))
 ])
 
@@ -101,7 +101,7 @@ build_confusion_matrix(random_forest)
 
 # naive-bayes classifier
 nb_pipeline_ngram = Pipeline([
-    ('nb_tfidf', FeatureSelection.tfidf_ngram),
+    ('nb_tfidf', features.tfidf_ngram),
     ('nb_clf', MultinomialNB())])
 
 nb_pipeline_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
@@ -110,7 +110,7 @@ np.mean(predicted_nb_ngram == prep.test_news['Label'])
 
 # logistic regression classifier
 logR_pipeline_ngram = Pipeline([
-    ('LogR_tfidf', FeatureSelection.tfidf_ngram),
+    ('LogR_tfidf', features.tfidf_ngram),
     ('LogR_clf', LogisticRegression(penalty="l2", C=1))
 ])
 
@@ -120,7 +120,7 @@ np.mean(predicted_LogR_ngram == prep.test_news['Label'])
 
 # linear SVM classifier
 svm_pipeline_ngram = Pipeline([
-    ('svm_tfidf', FeatureSelection.tfidf_ngram),
+    ('svm_tfidf', features.tfidf_ngram),
     ('svm_clf', svm.LinearSVC())
 ])
 
@@ -130,7 +130,7 @@ np.mean(predicted_svm_ngram == prep.test_news['Label'])
 
 # SGD classifier
 sgd_pipeline_ngram = Pipeline([
-    ('sgd_tfidf', FeatureSelection.tfidf_ngram),
+    ('sgd_tfidf', features.tfidf_ngram),
     ('sgd_clf', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
 ])
 
@@ -140,7 +140,7 @@ np.mean(predicted_sgd_ngram == prep.test_news['Label'])
 
 # random forest classifier
 random_forest_ngram = Pipeline([
-    ('rf_tfidf', FeatureSelection.tfidf_ngram),
+    ('rf_tfidf', features.tfidf_ngram),
     ('rf_clf', RandomForestClassifier(n_estimators=300, n_jobs=3))
 ])
 

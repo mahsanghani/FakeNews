@@ -9,7 +9,7 @@ import nltk.corpus
 # feature vector
 # document term matrix
 countV = CountVectorizer()
-train_count = countV.fit_transform(prep.train_news['Statement'].values)
+train_count = countV.fit_transform(prep.train_news['text'].values)
 
 print(countV)
 print(train_count)
