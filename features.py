@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk.corpus
+from zipfile import ZipFile
 
 # simple bag of words
 # feature vector
@@ -73,6 +74,10 @@ def features(sentence, index):
 # strip tags
 def untag(tagged_sentence):
     return [w for w, t in tagged_sentence]
+
+zf = ZipFile('data/glove.6B.50d.txt.zip', 'r')
+zf.extractall('data')
+zf.close()
 
 # Using Word2Vec
 with open("data/glove.6B.50d.txt", "rb") as lines:
