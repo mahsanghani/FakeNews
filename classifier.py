@@ -1,4 +1,4 @@
-import DataPrep
+import prep
 import FeatureSelection
 import numpy as np
 import pickle
@@ -22,9 +22,9 @@ nb_pipeline = Pipeline([
     ('NBCV', FeatureSelection.countV),
     ('nb_clf', MultinomialNB())])
 
-nb_pipeline.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_nb = nb_pipeline.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_nb == DataPrep.test_news['Label'])
+nb_pipeline.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_nb = nb_pipeline.predict(prep.test_news['Statement'])
+np.mean(predicted_nb == prep.test_news['Label'])
 
 # logistic regression classifier
 logR_pipeline = Pipeline([
@@ -32,9 +32,9 @@ logR_pipeline = Pipeline([
     ('LogR_clf', LogisticRegression())
 ])
 
-logR_pipeline.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_LogR = logR_pipeline.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_LogR == DataPrep.test_news['Label'])
+logR_pipeline.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_LogR = logR_pipeline.predict(prep.test_news['Statement'])
+np.mean(predicted_LogR == prep.test_news['Label'])
 
 # Linear SVM classifier
 svm_pipeline = Pipeline([
@@ -42,9 +42,9 @@ svm_pipeline = Pipeline([
     ('svm_clf', svm.LinearSVC())
 ])
 
-svm_pipeline.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_svm = svm_pipeline.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_svm == DataPrep.test_news['Label'])
+svm_pipeline.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_svm = svm_pipeline.predict(prep.test_news['Statement'])
+np.mean(predicted_svm == prep.test_news['Label'])
 
 # SVM Stochastic Gradient Descent
 sgd_pipeline = Pipeline([
@@ -52,9 +52,9 @@ sgd_pipeline = Pipeline([
     ('svm2_clf', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
 ])
 
-sgd_pipeline.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_sgd = sgd_pipeline.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_sgd == DataPrep.test_news['Label'])
+sgd_pipeline.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_sgd = sgd_pipeline.predict(prep.test_news['Statement'])
+np.mean(predicted_sgd == prep.test_news['Label'])
 
 # random forest classifier
 random_forest = Pipeline([
@@ -62,9 +62,9 @@ random_forest = Pipeline([
     ('rf_clf', RandomForestClassifier(n_estimators=200, n_jobs=3))
 ])
 
-random_forest.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_rf = random_forest.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_rf == DataPrep.test_news['Label'])
+random_forest.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_rf = random_forest.predict(prep.test_news['Statement'])
+np.mean(predicted_rf == prep.test_news['Label'])
 
 # K-Fold cross validation
 def build_confusion_matrix(classifier):
@@ -72,12 +72,12 @@ def build_confusion_matrix(classifier):
     scores = []
     confusion = np.array([[0, 0], [0, 0]])
 
-    for train_ind, test_ind in k_fold.split(DataPrep.train_news):
-        train_text = DataPrep.train_news.iloc[train_ind]['Statement']
-        train_y = DataPrep.train_news.iloc[train_ind]['Label']
+    for train_ind, test_ind in k_fold.split(prep.train_news):
+        train_text = prep.train_news.iloc[train_ind]['Statement']
+        train_y = prep.train_news.iloc[train_ind]['Label']
 
-        test_text = DataPrep.train_news.iloc[test_ind]['Statement']
-        test_y = DataPrep.train_news.iloc[test_ind]['Label']
+        test_text = prep.train_news.iloc[test_ind]['Statement']
+        test_y = prep.train_news.iloc[test_ind]['Label']
 
         classifier.fit(train_text, train_y)
         predictions = classifier.predict(test_text)
@@ -86,7 +86,7 @@ def build_confusion_matrix(classifier):
         score = f1_score(test_y, predictions)
         scores.append(score)
 
-    return (print('Total statements classified:', len(DataPrep.train_news)),
+    return (print('Total statements classified:', len(prep.train_news)),
             print('Score:', sum(scores) / len(scores)),
             print('score length', len(scores)),
             print('Confusion matrix:'),
@@ -104,9 +104,9 @@ nb_pipeline_ngram = Pipeline([
     ('nb_tfidf', FeatureSelection.tfidf_ngram),
     ('nb_clf', MultinomialNB())])
 
-nb_pipeline_ngram.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_nb_ngram = nb_pipeline_ngram.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_nb_ngram == DataPrep.test_news['Label'])
+nb_pipeline_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_nb_ngram = nb_pipeline_ngram.predict(prep.test_news['Statement'])
+np.mean(predicted_nb_ngram == prep.test_news['Label'])
 
 # logistic regression classifier
 logR_pipeline_ngram = Pipeline([
@@ -114,9 +114,9 @@ logR_pipeline_ngram = Pipeline([
     ('LogR_clf', LogisticRegression(penalty="l2", C=1))
 ])
 
-logR_pipeline_ngram.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_LogR_ngram = logR_pipeline_ngram.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_LogR_ngram == DataPrep.test_news['Label'])
+logR_pipeline_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_LogR_ngram = logR_pipeline_ngram.predict(prep.test_news['Statement'])
+np.mean(predicted_LogR_ngram == prep.test_news['Label'])
 
 # linear SVM classifier
 svm_pipeline_ngram = Pipeline([
@@ -124,9 +124,9 @@ svm_pipeline_ngram = Pipeline([
     ('svm_clf', svm.LinearSVC())
 ])
 
-svm_pipeline_ngram.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_svm_ngram = svm_pipeline_ngram.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_svm_ngram == DataPrep.test_news['Label'])
+svm_pipeline_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_svm_ngram = svm_pipeline_ngram.predict(prep.test_news['Statement'])
+np.mean(predicted_svm_ngram == prep.test_news['Label'])
 
 # SGD classifier
 sgd_pipeline_ngram = Pipeline([
@@ -134,9 +134,9 @@ sgd_pipeline_ngram = Pipeline([
     ('sgd_clf', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
 ])
 
-sgd_pipeline_ngram.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_sgd_ngram = sgd_pipeline_ngram.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_sgd_ngram == DataPrep.test_news['Label'])
+sgd_pipeline_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_sgd_ngram = sgd_pipeline_ngram.predict(prep.test_news['Statement'])
+np.mean(predicted_sgd_ngram == prep.test_news['Label'])
 
 # random forest classifier
 random_forest_ngram = Pipeline([
@@ -144,9 +144,9 @@ random_forest_ngram = Pipeline([
     ('rf_clf', RandomForestClassifier(n_estimators=300, n_jobs=3))
 ])
 
-random_forest_ngram.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_rf_ngram = random_forest_ngram.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_rf_ngram == DataPrep.test_news['Label'])
+random_forest_ngram.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_rf_ngram = random_forest_ngram.predict(prep.test_news['Statement'])
+np.mean(predicted_rf_ngram == prep.test_news['Label'])
 
 # K-fold cross validation
 build_confusion_matrix(nb_pipeline_ngram)
@@ -155,13 +155,13 @@ build_confusion_matrix(svm_pipeline_ngram)
 build_confusion_matrix(sgd_pipeline_ngram)
 build_confusion_matrix(random_forest_ngram)
 
-print(classification_report(DataPrep.test_news['Label'], predicted_nb_ngram))
-print(classification_report(DataPrep.test_news['Label'], predicted_LogR_ngram))
-print(classification_report(DataPrep.test_news['Label'], predicted_svm_ngram))
-print(classification_report(DataPrep.test_news['Label'], predicted_sgd_ngram))
-print(classification_report(DataPrep.test_news['Label'], predicted_rf_ngram))
+print(classification_report(prep.test_news['Label'], predicted_nb_ngram))
+print(classification_report(prep.test_news['Label'], predicted_LogR_ngram))
+print(classification_report(prep.test_news['Label'], predicted_svm_ngram))
+print(classification_report(prep.test_news['Label'], predicted_sgd_ngram))
+print(classification_report(prep.test_news['Label'], predicted_rf_ngram))
 
-DataPrep.test_news['Label'].shape
+prep.test_news['Label'].shape
 
 # grid-search hyperparameter optimization
 # random forest classifier parameters
@@ -171,7 +171,7 @@ parameters = {'rf_tfidf__ngram_range': [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)],
               }
 
 gs_clf = GridSearchCV(random_forest_ngram, parameters, n_jobs=-1)
-gs_clf = gs_clf.fit(DataPrep.train_news['Statement'][:10000], DataPrep.train_news['Label'][:10000])
+gs_clf = gs_clf.fit(prep.train_news['Statement'][:10000], prep.train_news['Label'][:10000])
 
 gs_clf.best_score_
 gs_clf.best_params_
@@ -184,7 +184,7 @@ parameters = {'LogR_tfidf__ngram_range': [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)
               }
 
 gs_clf = GridSearchCV(logR_pipeline_ngram, parameters, n_jobs=-1)
-gs_clf = gs_clf.fit(DataPrep.train_news['Statement'][:10000], DataPrep.train_news['Label'][:10000])
+gs_clf = gs_clf.fit(prep.train_news['Statement'][:10000], prep.train_news['Label'][:10000])
 
 gs_clf.best_score_
 gs_clf.best_params_
@@ -198,7 +198,7 @@ parameters = {'svm_tfidf__ngram_range': [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)]
               }
 
 gs_clf = GridSearchCV(svm_pipeline_ngram, parameters, n_jobs=-1)
-gs_clf = gs_clf.fit(DataPrep.train_news['Statement'][:10000], DataPrep.train_news['Label'][:10000])
+gs_clf = gs_clf.fit(prep.train_news['Statement'][:10000], prep.train_news['Label'][:10000])
 
 gs_clf.best_score_
 gs_clf.best_params_
@@ -210,20 +210,20 @@ random_forest_final = Pipeline([
     ('rf_clf', RandomForestClassifier(n_estimators=300, n_jobs=3, max_depth=10))
 ])
 
-random_forest_final.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_rf_final = random_forest_final.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_rf_final == DataPrep.test_news['Label'])
-print(metrics.classification_report(DataPrep.test_news['Label'], predicted_rf_final))
+random_forest_final.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_rf_final = random_forest_final.predict(prep.test_news['Statement'])
+np.mean(predicted_rf_final == prep.test_news['Label'])
+print(metrics.classification_report(prep.test_news['Label'], predicted_rf_final))
 
 logR_pipeline_final = Pipeline([
     ('LogR_tfidf', TfidfVectorizer(stop_words='english', ngram_range=(1, 5), use_idf=True, smooth_idf=False)),
     ('LogR_clf', LogisticRegression(penalty="l2", C=1))
 ])
 
-logR_pipeline_final.fit(DataPrep.train_news['Statement'], DataPrep.train_news['Label'])
-predicted_LogR_final = logR_pipeline_final.predict(DataPrep.test_news['Statement'])
-np.mean(predicted_LogR_final == DataPrep.test_news['Label'])
-print(metrics.classification_report(DataPrep.test_news['Label'], predicted_LogR_final))
+logR_pipeline_final.fit(prep.train_news['Statement'], prep.train_news['Label'])
+predicted_LogR_final = logR_pipeline_final.predict(prep.test_news['Statement'])
+np.mean(predicted_LogR_final == prep.test_news['Label'])
+print(metrics.classification_report(prep.test_news['Label'], predicted_LogR_final))
 
 # saving best model
 model_file = 'final_model.sav'
@@ -234,8 +234,8 @@ def plot_learing_curve(pipeline, title):
     size = 10000
     cv = KFold(size, shuffle=True)
 
-    X = DataPrep.train_news["Statement"]
-    y = DataPrep.train_news["Label"]
+    X = prep.train_news["Statement"]
+    y = prep.train_news["Label"]
 
     pl = pipeline
     pl.fit(X, y)
@@ -282,8 +282,8 @@ plot_learing_curve(random_forest_ngram, "RandomForest Classifier")
 
 # plotting Precision-Recall curve
 def plot_PR_curve(classifier):
-    precision, recall, thresholds = precision_recall_curve(DataPrep.test_news['Label'], classifier)
-    average_precision = average_precision_score(DataPrep.test_news['Label'], classifier)
+    precision, recall, thresholds = precision_recall_curve(prep.test_news['Label'], classifier)
+    average_precision = average_precision_score(prep.test_news['Label'], classifier)
 
     plt.step(recall, precision, color='b', alpha=0.2,
              where='post')
