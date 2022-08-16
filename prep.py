@@ -1,18 +1,15 @@
-import os
 import pandas as pd
-import csv
-import numpy as np
 import nltk
 from nltk.stem import SnowballStemmer
 from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import word_tokenize
 import seaborn as sb
 
 train_filename = 'data/train.csv'
 test_filename = 'data/test.csv'
 train_news = pd.read_csv(train_filename)
+train_news = train_news.dropna(subset=['text'])
 test_news = pd.read_csv(test_filename)
-
+test_news = test_news.dropna(subset=['text'])
 # data observation
 def data_obs():
     print("training dataset size:")
@@ -22,24 +19,31 @@ def data_obs():
     print(test_news.shape)
     print(test_news.head(10))
 
+# check data
+data_obs()
+
 # distribution of classes for prediction
 def create_distribution(dataFile):
-    return sb.countplot(x='Label', data=dataFile, palette='hls')
+    return sb.countplot(x='label', data=dataFile, palette='hls')
 
 # address class imbalance by creating distributions
 create_distribution(train_news)
-create_distribution(test_news)
+# create_distribution(test_news)
 
 # missing values
 def data_qualityCheck():
     print("Checking data qualitites...")
+    train_news.dropna(subset=['text'])
     train_news.isnull().sum()
     train_news.info()
 
     print("check finished.")
-
+    test_news.dropna(subset=['text'])
     test_news.isnull().sum()
     test_news.info()
+
+# check missing values
+data_qualityCheck()
 
 eng_stemmer = SnowballStemmer('english')
 stopwords = set(nltk.corpus.stopwords.words('english'))

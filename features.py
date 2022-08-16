@@ -1,20 +1,16 @@
-import DataPrep
-import pandas as pd
+import prep
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import Pipeline
-import nltk
 import nltk.corpus
-from nltk.tokenize import word_tokenize
-from gensim.models.word2vec import Word2Vec
+from zipfile import ZipFile
 
 # simple bag of words
 # feature vector
 # document term matrix
 countV = CountVectorizer()
-train_count = countV.fit_transform(DataPrep.train_news['Statement'].values)
+train_count = countV.fit_transform(prep.train_news['text'].values)
 
 print(countV)
 print(train_count)
@@ -48,7 +44,7 @@ tfidf_ngram = TfidfVectorizer(stop_words='english', ngram_range=(1, 4), use_idf=
 tagged_sentences = nltk.corpus.treebank.tagged_sents()
 
 cutoff = int(.75 * len(tagged_sentences))
-training_sentences = DataPrep.train_news['Statement']
+training_sentences = prep.train_news['text']
 
 print(training_sentences)
 
@@ -78,6 +74,10 @@ def features(sentence, index):
 # strip tags
 def untag(tagged_sentence):
     return [w for w, t in tagged_sentence]
+
+zf = ZipFile('data/glove.6B.50d.txt.zip', 'r')
+zf.extractall('data')
+zf.close()
 
 # Using Word2Vec
 with open("data/glove.6B.50d.txt", "rb") as lines:
