@@ -1,10 +1,7 @@
 import DataPrep
 import FeatureSelection
 import numpy as np
-import pandas as pd
 import pickle
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.naive_bayes import MultinomialNB
@@ -351,7 +348,6 @@ def show_most_informative_features(model, vect, clf, text=None, n=50):
             )
         )
     print(output)
-
 
 show_most_informative_features(logR_pipeline_ngram, vect='LogR_tfidf', clf='LogR_clf')
 show_most_informative_features(nb_pipeline_ngram, vect='nb_tfidf', clf='nb_clf')

@@ -1,14 +1,9 @@
 import DataPrep
-import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import Pipeline
-import nltk
 import nltk.corpus
-from nltk.tokenize import word_tokenize
-from gensim.models.word2vec import Word2Vec
 
 # simple bag of words
 # feature vector

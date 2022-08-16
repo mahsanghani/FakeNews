@@ -1,11 +1,7 @@
-import os
 import pandas as pd
-import csv
-import numpy as np
 import nltk
 from nltk.stem import SnowballStemmer
 from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import word_tokenize
 import seaborn as sb
 
 train_filename = 'data/train.csv'
