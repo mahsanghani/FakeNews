@@ -20,11 +20,11 @@ def data_obs():
 
 # distribution of classes for prediction
 def create_distribution(dataFile):
-    return sb.countplot(x='Label', data=dataFile, palette='hls')
+    return sb.countplot(x='label', data=dataFile, palette='hls')
 
 # address class imbalance by creating distributions
 create_distribution(train_news)
-create_distribution(test_news)
+# create_distribution(test_news)
 
 # missing values
 def data_qualityCheck():
