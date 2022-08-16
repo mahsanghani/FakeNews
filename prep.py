@@ -8,8 +8,8 @@ from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 import seaborn as sb
 
-train_filename = 'train.csv'
-test_filename = 'test.csv'
+train_filename = 'data/train.csv'
+test_filename = 'data/test.csv'
 train_news = pd.read_csv(train_filename)
 test_news = pd.read_csv(test_filename)
 
