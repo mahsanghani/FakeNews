@@ -1,0 +1,6 @@
+pandas~=1.4.3
+numpy~=1.23.2
+nltk~=3.7
+seaborn~=0.11.2
+scikit-learn~=1.1.2
+gensim~=4.2.0
