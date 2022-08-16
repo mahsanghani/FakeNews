@@ -43,7 +43,7 @@ tfidf_ngram = TfidfVectorizer(stop_words='english', ngram_range=(1, 4), use_idf=
 tagged_sentences = nltk.corpus.treebank.tagged_sents()
 
 cutoff = int(.75 * len(tagged_sentences))
-training_sentences = prep.train_news['Statement']
+training_sentences = prep.train_news['text']
 
 print(training_sentences)
 
