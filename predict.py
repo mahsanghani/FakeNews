@@ -1,5 +1,7 @@
 import bz2
-import pickle5 as pickle
+import pickle
+
+doc_new = 'obama is running for president in 2016'
 
 var = input("Text: ")
 print("Confirm: " + str(var))
@@ -10,7 +12,6 @@ def detecting_fake_news(var):
     ifile = bz2.BZ2File("model.pkl",'rb')
     load_model = pickle.load(ifile)
     ifile.close()
-    # load_model = pickle.load(open('final_model.sav', 'rb'))
     prediction = load_model.predict([var])
     prob = load_model.predict_proba([var])
 
@@ -18,4 +19,4 @@ def detecting_fake_news(var):
         print("probability: ",prob[0][1]))
 
 if __name__ == '__main__':
-    detecting_fake_news(var)
+    detecting_fake_news([doc_new])
